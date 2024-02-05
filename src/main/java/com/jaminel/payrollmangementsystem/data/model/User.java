@@ -1,6 +1,6 @@
 package com.jaminel.payrollmangementsystem.data.model;
 
-import com.jaminel.payrollmangementsystem.data.model.Role;
+import com.jaminel.payrollmangementsystem.data.model.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import lombok.Data;
@@ -35,6 +35,9 @@ public class User {
 
     @Column(name = "password")
     private String password;
+
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),

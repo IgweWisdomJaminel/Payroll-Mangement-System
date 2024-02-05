@@ -16,5 +16,6 @@ public class PaySlip {
     @Id
     @UuidGenerator
     private String id;
+    private String email;
 
 }

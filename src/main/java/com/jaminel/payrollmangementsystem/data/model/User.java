@@ -1,39 +1,44 @@
 package com.jaminel.payrollmangementsystem.data.model;
 
-import com.jaminel.payrollmangementsystem.data.model.enums.Role;
-import jakarta.persistence.ElementCollection;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotBlank;
-import lombok.*;
-import org.hibernate.annotations.UuidGenerator;
+import com.jaminel.payrollmangementsystem.data.model.Role;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@NoArgsConstructor
-@Builder
 @Entity
+@Data
+@NoArgsConstructor
+@Table(name = "users")
 public class User {
 
     @Id
-    @UuidGenerator
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private int id;
 
-    @NotBlank
+    @Column(name = "first_name")
     private String firstName;
-    @NotBlank
+
+    @Column(name = "last_name")
     private String lastName;
-    @NotBlank
-    private String email;
-    @NotBlank
+
+    @Column(name = "user_name")
     private String username;
-    @NotBlank
+
+    @Email
+    @Column(name = "email")
+    private String email;
+
+    @Column(name = "password")
     private String password;
 
-    @ElementCollection
-    private Set<Role> role;
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "user_role", joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
 
+    private List<Role> roles = new ArrayList<>();
 }

@@ -34,5 +34,5 @@ public class Employee {
 
     private String designation;
 
-    private Salary salary;
+    private Double salary;
 }

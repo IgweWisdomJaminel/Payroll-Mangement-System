@@ -1,5 +1,6 @@
 package com.jaminel.payrollmangementsystem.data.dto;
 
+import com.jaminel.payrollmangementsystem.data.model.enums.Role;
 import lombok.Data;
 
 @Data
@@ -10,4 +11,5 @@ public class RegisterDto {
     private  String username;
     private String email;
     private String password;
+    public Role role;
 }

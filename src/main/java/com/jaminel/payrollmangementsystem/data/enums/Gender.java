@@ -1,4 +1,4 @@
-package com.jaminel.payrollmangementsystem.data.model.enums;
+package com.jaminel.payrollmangementsystem.data.enums;
 
 public enum Gender {
     MALE,

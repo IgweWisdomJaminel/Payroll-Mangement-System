@@ -1,6 +1,6 @@
 package com.jaminel.payrollmangementsystem.data.model;
 
-import com.jaminel.payrollmangementsystem.data.model.enums.Gender;
+import com.jaminel.payrollmangementsystem.data.enums.Gender;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;

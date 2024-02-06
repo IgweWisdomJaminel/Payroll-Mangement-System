@@ -19,4 +19,8 @@ public class Department {
     private String id;
 
     private String name;
+
+
+    public Department(String departmentName) {
+    }
 }

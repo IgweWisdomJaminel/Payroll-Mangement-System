@@ -57,6 +57,24 @@ public class EmployeeService {
         }
     }
 
+    public List<Employee> getAllEmployee (){
+        return employeeRepository.findAll();
+    }
+    public Employee findEmployeeById(int id){
+        return employeeRepository.findById(id).orElseThrow(()->new UserNotFoundException("NOT FOUND"));
+    }
+    public Employee updateEmployeeList(int id, Employee employee) {
+        Optional<Employee> updateList = employeeRepository.findById(id);
+        if (updateList.isPresent()) {
+            Employee employees = updateList.get();
+            employees.setDateEmployed(employee.getDateEmployed());
+            employees.setDepartment(employee.getDepartment());
+            employees.setGender(employee.getGender());
+            employees.setSalary(employee.getSalary());
+
+            return employeeRepository.save(employees);
+        } else {
+            return (null);
     public Map<String,String>deleteEmployee(String id){
         try{
             employeeRepository.deleteById(id);

@@ -1,5 +1,11 @@
 package com.jaminel.payrollmangementsystem.data.exception;
 
+public class DepartmentNotFoundException  extends RuntimeException{
+    public DepartmentNotFoundException (String message){
+        super(message);
+    }
+
+
 public class DepartmentNotFoundException extends RuntimeException{
     public DepartmentNotFoundException(String message) {
         super(message);

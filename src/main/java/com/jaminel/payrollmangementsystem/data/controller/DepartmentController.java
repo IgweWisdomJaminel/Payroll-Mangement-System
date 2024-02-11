@@ -37,3 +37,4 @@ public class DepartmentController {
         return new ResponseEntity<>(departmentService.deleteDepartment(id), HttpStatus.OK);
     }
 }
+

@@ -13,5 +13,13 @@ public class GlobalExceptionHandler {
     public Map<String,String>departmentNotFoundExceptionHandler(DepartmentNotFoundException departmentNotFoundException){
         return Map.of("Message",departmentNotFoundException.getMessage());
 
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(DepartmentNotFoundException.class)
+    public Map<String,String>departmentNotFoundExceptionHandler(DepartmentNotFoundException departmentNotFoundException){
+        return Map.of("Message",departmentNotFoundException.getMessage());
+
+    }
+
     }
 }

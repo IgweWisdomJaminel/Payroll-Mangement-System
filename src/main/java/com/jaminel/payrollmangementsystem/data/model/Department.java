@@ -19,6 +19,11 @@ public class Department {
     @UuidGenerator
     private String id;
 
+    private String name;
+
+
+    public Department(String departmentName) {
+
     @Column(name = "department_name")
     private String departmentName;
 

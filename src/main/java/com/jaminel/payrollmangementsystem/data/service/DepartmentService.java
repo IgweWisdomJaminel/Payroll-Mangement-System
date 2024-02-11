@@ -6,6 +6,11 @@ import com.jaminel.payrollmangementsystem.data.model.Department;
 import com.jaminel.payrollmangementsystem.data.repository.DepartmentRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +55,7 @@ public class DepartmentService {
             Department departmentToBeUpdated = departmentRepository.findById(id)
                     .orElseThrow(DepartmentNotFoundException::new);
 
+            departmentToBeUpdated.setId(departmentDto.getDepartmentName());
             departmentToBeUpdated.setDepartmentName(departmentDto.getDepartmentName());
 
             departmentRepository.save(departmentToBeUpdated);

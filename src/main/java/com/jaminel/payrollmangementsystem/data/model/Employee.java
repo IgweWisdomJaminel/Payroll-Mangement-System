@@ -1,5 +1,11 @@
 package com.jaminel.payrollmangementsystem.data.model;
 
+import com.jaminel.payrollmangementsystem.data.enums.Gender;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+
 import com.jaminel.payrollmangementsystem.data.model.enums.Gender;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
@@ -36,7 +42,6 @@ public class Employee {
    @Email(message = "Please input a valid email address")
     private String email;
 
-<<<<<<< HEAD
     public Employee(String fullName, LocalDate dateEmployed, Gender gender, String phoneNumber, Department department, String email) {
         this.fullName = fullName;
         this.dateEmployed = dateEmployed;
@@ -45,7 +50,6 @@ public class Employee {
         this.department = department;
        this.email = email;
     }
-=======
+
     private Double salary;
->>>>>>> ee9183ab1c15ec7c8aa69ffbce995366dd701cfe
 }

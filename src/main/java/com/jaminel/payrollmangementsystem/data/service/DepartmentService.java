@@ -11,6 +11,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,6 +56,7 @@ public class DepartmentService {
                     .orElseThrow(DepartmentNotFoundException::new);
 
             departmentToBeUpdated.setId(departmentDto.getDepartmentName());
+            departmentToBeUpdated.setDepartmentName(departmentDto.getDepartmentName());
 
             departmentRepository.save(departmentToBeUpdated);
 

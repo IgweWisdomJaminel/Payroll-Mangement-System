@@ -1,6 +1,7 @@
 package com.jaminel.payrollmangementsystem.data.model;
 
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import lombok.*;
@@ -22,5 +23,12 @@ public class Department {
 
 
     public Department(String departmentName) {
+
+    @Column(name = "department_name")
+    private String departmentName;
+
+    public Department(String departmentName) {
+        this.departmentName = departmentName;
     }
 }
+

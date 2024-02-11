@@ -1,35 +1,60 @@
 package com.jaminel.payrollmangementsystem.data.service;
-import com.jaminel.payrollmangementsystem.data.exception.UserNotFoundException;
+
+import com.jaminel.payrollmangementsystem.data.dto.EmployeeDto;
 import com.jaminel.payrollmangementsystem.data.model.Department;
 import com.jaminel.payrollmangementsystem.data.model.Employee;
 import com.jaminel.payrollmangementsystem.data.repository.EmployeeRepository;
-import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.crossstore.ChangeSetPersister;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
-import java.time.LocalDate;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class EmployeeService {
 
-    private EmployeeRepository employeeRepository;
 
-    public Employee saveEmployee (@Valid Employee employee){
+    private EmployeeRepository employeeRepository;
+    private DepartmentService departmentService;
+
+
+    public List<Employee>getAllEmployees(){return employeeRepository.findAll();}
+
+    public Employee addEmployee(EmployeeDto employeeDto){
+        Department department = departmentService.getDepartmentById(employeeDto.getDepartmentId()).getBody();
+        Employee employee =
+                new Employee(employeeDto.getFullName()
+                        ,employeeDto.getDateEmployed(),employeeDto
+                                .getGender(),employeeDto.getPhoneNumber(),department,employeeDto.getEmail());
         return employeeRepository.save(employee);
     }
 
-    public Map<String, Boolean>  saveAllEmployee(List<Employee> employee){
-        Map<String, Boolean> response = new HashMap<>();
-        for (Employee employees : employee){
-            response.put(employees.getId() + "saved successfully", true);
+
+    public ResponseEntity<Employee> updateEmployee(String id, EmployeeDto employeeDto) {
+        try {
+            Employee employee = employeeRepository.findById(id).orElseThrow(ChangeSetPersister.NotFoundException::new);
+            employee =
+                    Employee.builder()
+                            .fullName(employee.getFullName())
+                            .email(employee.getEmail())
+                            .dateEmployed(employeeDto.getDateEmployed())
+                            .department(departmentService.getDepartmentById(employeeDto.getDepartmentId())
+                                    .getBody()).gender(employeeDto.getGender())
+                            .phoneNumber(employeeDto.getPhoneNumber()).build();
+            return new ResponseEntity<>(employeeRepository.save(employee),HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            e.getMessage();
+            return new ResponseEntity<>(null, HttpStatus.INTERNAL_SERVER_ERROR);
+
         }
-        employeeRepository.saveAll(employee);
-        return response;
     }
 
     public List<Employee> getAllEmployee (){
@@ -50,16 +75,37 @@ public class EmployeeService {
             return employeeRepository.save(employees);
         } else {
             return (null);
+    public Map<String,String>deleteEmployee(String id){
+        try{
+            employeeRepository.deleteById(id);
+            return Map.of("Message :","Deleted Succefully");
+        }catch (Exception e){
+            e.printStackTrace();
+            return Map.of("message",e.getMessage());
+        }
+    }
+    public ResponseEntity<Employee>getEmployeeById(String id){
+        try{
+          return new ResponseEntity<>(employeeRepository.findById(id).
+                  orElseThrow(ChangeSetPersister.NotFoundException::new),HttpStatus.OK);
+
+
+        }catch (Exception e){
+            e.printStackTrace();
+            e.getMessage();
+
+        }
+        return new ResponseEntity<>(null,HttpStatus.BAD_REQUEST);
+    }
+    public ResponseEntity<Employee> getEmployeeByName(String name){
+        try {
+            return new ResponseEntity<>(employeeRepository.getEmployeeByFullName(name),HttpStatus.OK);
+        }catch (HttpClientErrorException.NotFound e){
+            e.printStackTrace();
+            e.getMessage();
+            return new ResponseEntity<>(null,e.getStatusCode());
         }
     }
 
-    public Employee findByDepartment (Department department){
-        return employeeRepository.findByDepartment(department);
+
     }
-    public Optional<Employee> findByDateEmployed (LocalDate date){
-        return employeeRepository.findByDateEmployed(date) ;
-    }
-    public void deleteEmployee (int id){
-        employeeRepository.deleteById(id);
-    }
-}

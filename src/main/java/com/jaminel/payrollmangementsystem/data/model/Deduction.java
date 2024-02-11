@@ -16,4 +16,8 @@ public class Deduction {
     @Id
     @UuidGenerator
     private String id;
+
+    private String type;
+
+    private double amount;
 }

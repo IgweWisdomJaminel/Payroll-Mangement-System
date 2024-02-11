@@ -1,14 +1,12 @@
 package com.jaminel.payrollmangementsystem.data.model;
 
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -22,13 +20,22 @@ public class Salary {
     @UuidGenerator
     private String id;
 
-    private LocalDate paymentDate;
-
     @ManyToOne
-    @JoinColumn(name = "pay_slip_id")
-    private PaySlip paySlip;
+    @JoinColumn(name = "employee_id")
+    private Employee employees;
 
-    @ManyToOne
+    @Column(name = "employee_name")
+    private String employeeName;
+
+    @Column(name = "basic_salary")
+    private double basicSalary;
+
+    private double allowances;
+
+    @OneToOne(cascade = CascadeType.ALL) // Consider cascading operations
     @JoinColumn(name = "deduction_id")
     private Deduction deduction;
+
+    @Column(name = "net_salary")
+    private double netSalary;
 }

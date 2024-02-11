@@ -3,6 +3,7 @@ package com.jaminel.payrollmangementsystem.data.service;
 import com.jaminel.payrollmangementsystem.data.dto.DeductionDto;
 import com.jaminel.payrollmangementsystem.data.model.Deduction;
 import com.jaminel.payrollmangementsystem.data.repository.DeductionRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -31,7 +32,9 @@ public class DeductionService {
     } public ResponseEntity<Deduction>updateDeduction(String type,DeductionDto deductionDto){
         try{
             Deduction deduction = deductionRepository.getDeductionByType(type);
+
             deduction = Deduction.builder().type(deductionDto.getType()).amount(deductionDto.getAmount()).build();
+
             return new ResponseEntity<>(deductionRepository.save(deduction), HttpStatus.OK);
         }catch (Exception e){
             e.printStackTrace();
@@ -40,7 +43,9 @@ public class DeductionService {
         }
 
     }
-    public ResponseEntity<Deduction> findDeductionByType(String type){
+
+   public ResponseEntity<Deduction> findDeductionByType(String type){
+
         try {
             return new ResponseEntity<>(deductionRepository.getDeductionByType(type),HttpStatus.OK);
         }catch(Exception e){
@@ -48,16 +53,23 @@ public class DeductionService {
             e.getMessage();
             return  new ResponseEntity<>(null,HttpStatus.NOT_FOUND);
         }
-    }
-    public Map<String,String> deleteDeductionByType(String type){
+
+   }
+   public Map<String,String> deleteDeductionByType(String type){
         try {
             Deduction deduction = deductionRepository.getDeductionByType(type);
-            deductionRepository.deleteById(deduction.getId());
+      deductionRepository.deleteById(deduction.getId());
+
             return Map.of("Message :","deleted");
         }catch(Exception e){
             e.printStackTrace();
             e.getMessage();
             return Map.of("Message",e.getMessage());
         }
-    }
+
+   }
 }
+
+
+
+

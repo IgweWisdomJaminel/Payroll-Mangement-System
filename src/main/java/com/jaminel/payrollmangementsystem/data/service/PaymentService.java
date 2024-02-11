@@ -1,19 +1,14 @@
 package com.jaminel.payrollmangementsystem.data.service;
 
 import com.jaminel.payrollmangementsystem.data.dto.PaymentDto;
-import com.jaminel.payrollmangementsystem.data.model.Deduction;
-import com.jaminel.payrollmangementsystem.data.model.Employee;
+
 import com.jaminel.payrollmangementsystem.data.model.Payment;
 import com.jaminel.payrollmangementsystem.data.model.Salary;
-import com.jaminel.payrollmangementsystem.data.repository.EmployeeRepository;
 import com.jaminel.payrollmangementsystem.data.repository.PaymentRepository;
-import jakarta.transaction.TransactionScoped;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -63,7 +58,7 @@ public class PaymentService {
     private double calculateNetAmount( double baseSalary, double deductionAmount,double allowances) {
 
         double netpay = Stream.of(baseSalary, deductionAmount, allowances)
-                .mapToDouble(value -> value != null ? value : 0.0)
+                .mapToDouble(value -> value)
                 .reduce(0.0, (subtotal, element) -> subtotal - element + element);
         return netpay;
     }

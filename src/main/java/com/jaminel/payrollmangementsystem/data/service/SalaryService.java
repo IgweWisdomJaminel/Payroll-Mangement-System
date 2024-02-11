@@ -1,6 +1,5 @@
 package com.jaminel.payrollmangementsystem.data.service;
 
-import com.jaminel.payrollmangementsystem.data.dto.DeductionDto;
 import com.jaminel.payrollmangementsystem.data.dto.SalaryDto;
 import com.jaminel.payrollmangementsystem.data.model.Deduction;
 import com.jaminel.payrollmangementsystem.data.model.Employee;
@@ -8,8 +7,6 @@ import com.jaminel.payrollmangementsystem.data.model.Salary;
 import com.jaminel.payrollmangementsystem.data.repository.SalaryRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -32,9 +29,11 @@ public class SalaryService {
         try{
             Deduction deduction = deductionService.findDeductionByType(salaryDto.getDeductionType()).getBody();
             Employee employee = employeeService.getEmployeeByName(salaryDto.getEmployeeName()).getBody();
+            assert deduction != null;
             double netpay = Stream.of(salaryDto.getBaseSalary(), deduction.getAmount(), salaryDto.getAllowances())
-                    .mapToDouble(value -> value != null ? value : 0.0)
+                    .mapToDouble(value -> value)
                     .reduce(0.0, (subtotal, element) -> subtotal - element + element);
+            assert employee != null;
             Salary salary = Salary.builder()
                     .employeeName(employee.getFullName())
                     .employees(employee).basicSalary(salaryDto.getBaseSalary()).
@@ -65,10 +64,11 @@ public class SalaryService {
             Salary existingSalary = salaryService.findSalaryByEmployeeName(employeeName).getBody();
             Deduction deduction = deductionService.findDeductionByType(salaryDto.getDeductionType()).getBody();
             double netPay = Stream.of(salaryDto.getBaseSalary(), deduction.getAmount(), salaryDto.getAllowances())
-                    .mapToDouble(value -> value != null ? value : 0.0)
+                    .mapToDouble(value -> value)
                     .reduce(0.0, (subtotal, element) -> subtotal - element + element);
 
 
+            assert existingSalary != null;
             existingSalary.setBasicSalary(salaryDto.getBaseSalary());
             existingSalary.setAllowances(salaryDto.getAllowances());
             existingSalary.setNetSalary(netPay);

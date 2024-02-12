@@ -1,7 +1,6 @@
 package com.jaminel.payrollmangementsystem.data.service;
 
 import com.jaminel.payrollmangementsystem.data.model.Payment;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.FileWriter;
@@ -15,7 +14,6 @@ public class PaySlipService {
 
         String payslipContent = generatePayslipContent(payment);
 
-
     }
 
 
@@ -25,30 +23,30 @@ public class PaySlipService {
         StringBuilder payslipContent = new StringBuilder();
 
 
-        payslipContent.append("**Employee Name:** " + payment.getEmployee().getFullName() + "\n");
-        payslipContent.append("**Employee ID:** " + payment.getEmployee().getId() + "\n");
+        payslipContent.append("**Employee Name:** ").append(payment.getEmployee().getFullName()).append("\n");
+        payslipContent.append("**Employee ID:** ").append(payment.getEmployee().getId()).append("\n");
 
-        payslipContent.append("**Payment Date:** " + payment.getPaymentDate() + "\n");
-        payslipContent.append("**Payment Type:** " + payment.getPaymentType() + "\n");
+        payslipContent.append("**Payment Date:** ").append(payment.getPaymentDate()).append("\n");
+        payslipContent.append("**Payment Type:** ").append(payment.getPaymentType()).append("\n");
 
 
-        payslipContent.append("**Gross Amount:** " + payment.getGrossAmount() + "\n");
+        payslipContent.append("**Gross Amount:** ").append(payment.getGrossAmount()).append("\n");
 
 
         payslipContent.append("**Deductions:**\n");
         if (payment.getDeduction() > 0) {
-            payslipContent.append(" - " + "Deduction amount" + ": " + payment.getDeduction() + "\n");
+            payslipContent.append(" - " + "Deduction amount" + ": ").append(payment.getDeduction()).append("\n");
         }
 
         payslipContent.append("**Allowances:**\n");
         if (payment.getAllowances() > 0) {
-            payslipContent.append(" - " + "Deduction Amount" + ": " + payment.getAllowances() + "\n");
+            payslipContent.append(" - " + "Deduction Amount" + ": ").append(payment.getAllowances()).append("\n");
         }
 
-        payslipContent.append("**Net Amount:** " + payment.getNetAmount() + "\n");
+        payslipContent.append("**Net Amount:** ").append(payment.getNetAmount()).append("\n");
 
 
-        payslipContent.append("Payment Reference: " + payment.getPaymentReference() + "\n");
+        payslipContent.append("Payment Reference: ").append(payment.getPaymentReference()).append("\n");
 
         payslipContent.append("\n"); // Add a line break for readability
         String payslip = payslipContent.toString();
@@ -59,7 +57,6 @@ public class PaySlipService {
 
         } catch (IOException e) {
             throw new RuntimeException(e);
-
         }
         return payslip;
     }

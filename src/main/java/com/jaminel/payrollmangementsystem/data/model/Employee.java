@@ -36,7 +36,6 @@ public class Employee {
    @Email(message = "Please input a valid email address")
     private String email;
 
-<<<<<<< HEAD
     public Employee(String fullName, LocalDate dateEmployed, Gender gender, String phoneNumber, Department department, String email) {
         this.fullName = fullName;
         this.dateEmployed = dateEmployed;
@@ -45,7 +44,5 @@ public class Employee {
         this.department = department;
        this.email = email;
     }
-=======
     private Double salary;
->>>>>>> ee9183ab1c15ec7c8aa69ffbce995366dd701cfe
 }
